@@ -1,0 +1,30 @@
+# .github/workflows/deploy.yml
+
+name: Deploy to GitHub Pages
+
+on:
+  workflow_call:
+    inputs:
+      deploy-branch:
+        description: 'The branch to deploy to (e.g. gh-pages)'
+        required: true
+        default: 'gh-pages'
+      deploy-command:
+        description: 'The npm command to deploy the app'
+        required: true
+        default: 'npm run deploy'
+      github-token:
+        description: 'GitHub token used to authenticate the deployment'
+        required: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Set the remote URL for deployment
+        run: |
+          git remote set-url origin https://x-access-token:${{ inputs.github-token }}@github.com/${{ github.repository }}.git
+          ${{ inputs.deploy-command }} -- -u "github-actions-bot <support+actions@github.com>"
+        env:
+          GITHUB_TOKEN: ${{ inputs.github-token }}
