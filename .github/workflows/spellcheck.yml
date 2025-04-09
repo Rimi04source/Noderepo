@@ -2,10 +2,8 @@ name: Spell Check
 
 on:
   workflow_call:
-    secrets:
-      # You can define any secrets you need for spell check here.
-      # For example, if you're using a custom token or GitHub token for authentication, 
-      # you can define it here, but ACTIONS_DEPLOY_TOKEN is not needed for this job.
+    # This ensures that this reusable workflow doesn't expect secrets, or pass them from the caller.
+    # If needed, we can pass `secrets` directly from the calling workflow.
 
 jobs:
   spellcheck:
@@ -17,7 +15,7 @@ jobs:
         id: spellcheck
         continue-on-error: true
         with:
-          github_token: ${{ github.token }}  # GitHub automatically provides this token
+          github_token: ${{ github.token }}  # Use the GitHub token automatically provided by the system
           config: cspell.config.yaml
           inline: warning
           root: '.'
