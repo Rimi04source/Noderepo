@@ -1,4 +1,4 @@
-name: Node.js CI, CodeQL Analysis and Deployment
+name: Node.js CI, CodeQL Analysis, and Deployment
 
 on:
   push:
@@ -26,9 +26,15 @@ jobs:
     secrets:
       ACTIONS_DEPLOY_TOKEN: ${{ secrets.ACTIONS_DEPLOY_TOKEN }}
 
+  # Spell Check Job (Reusing the spellcheck.yml)
+  spellcheck:
+    uses: ./.github/workflows/spellcheck.yml  # Correct reference to the reusable spellcheck workflow
+    secrets:
+      ACTIONS_DEPLOY_TOKEN: ${{ secrets.ACTIONS_DEPLOY_TOKEN }}
+
   # Deployment Job
   deployment:
-    needs: [node-ci, codeql-analysis]  # Deployment depends on both node-ci and codeql-analysis jobs
+    needs: [node-ci, codeql-analysis, spellcheck]  # Deployment depends on all previous jobs
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
