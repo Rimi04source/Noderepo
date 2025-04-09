@@ -29,8 +29,6 @@ jobs:
   # Spell Check Job (Reusing the spellcheck.yml)
   spellcheck:
     uses: ./.github/workflows/spellcheck.yml  # Calling the reusable spellcheck workflow
-    secrets:
-      ACTIONS_DEPLOY_TOKEN: ${{ secrets.ACTIONS_DEPLOY_TOKEN }}  # Not needed in spellcheck.yml
 
   # Deployment Job
   deployment:
