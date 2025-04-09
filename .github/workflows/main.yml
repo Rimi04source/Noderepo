@@ -6,6 +6,11 @@ on:
   pull_request:
     branches: ["main"]
 
+permissions:
+  actions: read
+  contents: read
+  security-events: write
+
 jobs:
   # Node.js CI Job
   node-ci:
@@ -15,9 +20,9 @@ jobs:
     secrets:
       ACTIONS_DEPLOY_TOKEN: ${{ secrets.ACTIONS_DEPLOY_TOKEN }}
 
-  # CodeQL Analysis Job
+  # CodeQL Analysis (Reusing the codeql-analysis.yml)
   codeql-analysis:
-    uses: ./.github/workflows/codeql-analysis.yml  # Reference to the reusable CodeQL analysis template
+    uses: ./.github/workflows/codeql-analysis.yml  # Correct reference to the reusable CodeQL workflow
     secrets:
       ACTIONS_DEPLOY_TOKEN: ${{ secrets.ACTIONS_DEPLOY_TOKEN }}
 
