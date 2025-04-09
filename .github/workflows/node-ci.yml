@@ -8,9 +8,11 @@ on:
         description: 'Node.js version to use'
         required: true
         default: '16.x'
+        type: string   # Add the 'type' field here
     secrets:
       ACTIONS_DEPLOY_TOKEN:
         required: true
+        type: string   # Add the 'type' field here
 
 jobs:
   build:
@@ -18,7 +20,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version:[${{ inputs.node-version }}]
+        node-version: ['${{ inputs.node-version }}']  # Corrected matrix definition
 
     steps:
       - name: Checkout repository
