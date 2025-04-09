@@ -1,40 +1,32 @@
-# .github/workflows/spellcheck.yml
-name: Spellcheck Workflow
+name: Spell Check
 
 on:
   workflow_call:
-    inputs:
-      github_token:
-        required: true
-        type: string
-    secrets:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
-  spell-check:
+  spellcheck:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3.6.0
+      - uses: actions/checkout@v3
       - uses: streetsidesoftware/cspell-action@v3
         name: Spell Check
         id: spellcheck
         continue-on-error: true
         with:
-          github_token: ${{ inputs.github_token }}  # GitHub token passed as input
+          github_token: ${{ github.token }}  # Use the automatically provided GITHUB_TOKEN
           config: cspell.config.yaml
-          inline: warning  # Notification level to use with inline reporting of spelling errors.
-          root: '.'  # The point in the directory tree to start spell checking.
-          check_dot_files: false  # Don't check files that start with `.`
-          strict: true  # Fails the action if any spelling issues are found.
-          incremental_files_only: false  # Check all files in the repository
-          verbose: false  # Log progress and information during execution.
+          inline: warning
+          root: '.'
+          check_dot_files: false
+          strict: true
+          incremental_files_only: false
+          verbose: false
           files: |
             README.md
-            **/*.md  # Check all markdown files
-            !dist/**/*.{ts,js}  # Exclude dist folder .ts and .js files
-
+            **/*.md
+            !dist/**/*.{ts,js}
       - name: 'View results'
         run: |
-          echo "Files checked: ${{ steps.spellcheck.outputs.number_of_files_checked }}"
-          echo "Files with issues: ${{ steps.spellcheck.outputs.number_of_files_with_issues }}"
-          echo "Files with issues details: ${{ steps.spellcheck.outputs.files_with_issues }}"
+          echo ${{ steps.spellcheck.outputs.number_of_files_checked }}
+          echo ${{ steps.spellcheck.outputs.number_of_files_with_issues }}
+          echo ${{ steps.spellcheck.outputs.files_with_issues }}
