@@ -13,7 +13,7 @@ jobs:
 
     strategy:
       matrix:
-        language: [ 'javascript', 'html', 'css' ]  # Define the languages directly here
+        language: [ 'javascript']  # Define the languages directly here
 
     steps:
       - name: Checkout repository
