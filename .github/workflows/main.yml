@@ -1,3 +1,4 @@
+# .github/workflows/main.yml
 name: Node.js CI and Deployment
 
 on:
@@ -8,14 +9,14 @@ on:
 
 jobs:
   node-ci:
-    uses: ./.github/workflows/node-ci.yml@main
+    uses: ./.github/workflows/node-ci.yml  # Correct reference to local reusable workflow
     with:
       node-version: '16.x'
     secrets:
       ACTIONS_DEPLOY_TOKEN: ${{ secrets.ACTIONS_DEPLOY_TOKEN }}
 
   deployment:
-    needs: node-ci  # This makes the deployment job depend on the success of the node-ci job
+    needs: node-ci  # This ensures deployment happens only after the Node.js CI job succeeds
     runs-on: ubuntu-latest
 
     steps:
