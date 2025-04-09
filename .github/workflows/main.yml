@@ -1,4 +1,4 @@
-name: Node.js CI and Deployment
+name: Node.js CI, CodeQL Analysis and Deployment
 
 on:
   push:
@@ -7,6 +7,7 @@ on:
     branches: ["main"]
 
 jobs:
+  # Node.js CI Job
   node-ci:
     uses: ./.github/workflows/node-ci.yml  # Correct reference to local reusable workflow
     with:
@@ -14,10 +15,16 @@ jobs:
     secrets:
       ACTIONS_DEPLOY_TOKEN: ${{ secrets.ACTIONS_DEPLOY_TOKEN }}
 
-  deployment:
-    needs: node-ci  # This ensures deployment happens only after the Node.js CI job succeeds
-    runs-on: ubuntu-latest
+  # CodeQL Analysis Job
+  codeql-analysis:
+    uses: ./.github/workflows/codeql-analysis.yml  # Reference to the reusable CodeQL analysis template
+    secrets:
+      ACTIONS_DEPLOY_TOKEN: ${{ secrets.ACTIONS_DEPLOY_TOKEN }}
 
+  # Deployment Job
+  deployment:
+    needs: [node-ci, codeql-analysis]  # Deployment depends on both node-ci and codeql-analysis jobs
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
