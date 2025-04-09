@@ -8,9 +8,10 @@ on:
         description: 'Node.js version to use'
         required: true
         default: '16.x'
+        type: string   # Correctly specifying the type for input
     secrets:
       ACTIONS_DEPLOY_TOKEN:
-        required: true
+        required: true  # No type needed for secrets
 
 jobs:
   build:
