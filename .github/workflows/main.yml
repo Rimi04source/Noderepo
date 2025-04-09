@@ -22,7 +22,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Set up Node.js ${{ matrix.node-version }}
+      - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '16.x'
@@ -31,8 +31,12 @@ jobs:
       - name: Install dependencies
         run: npm ci  # Ensure that all dependencies, including 'gh-pages', are installed
 
-      - name: Install gh-pages (if not already installed)
-        run: npm install gh-pages  # Explicitly install 'gh-pages' package if not already in package.json
+      - name: Build the project
+        run: npm run build  # Ensure the 'build' directory is generated
+
+      # Add this step to check the build directory contents
+      - name: List build directory
+        run: ls -al build  # Check if the build directory exists and contains the expected files
 
       - name: Set the remote URL with the Personal Access Token
         run: |
