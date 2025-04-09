@@ -8,7 +8,7 @@ on:
 
 jobs:
   node-ci:
-    uses: .github/workflows/node-ci.yml
+    uses: .github/workflows/node-ci.yml@main  # Specify the branch or commit hash here
     with:
       node-version: '16.x'
     secrets:
